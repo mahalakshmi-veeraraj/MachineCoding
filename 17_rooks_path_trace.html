@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+    <style>
+        div.board {
+            border-style: double;
+            height: 578px;
+            width: 578px;
+        }
+
+        div.row {
+            display: flex;
+        }
+
+        div.checkbox {
+            height: 70px;
+            width: 70px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="board">
+        <div class="row" id="1">
+            <div class="checkbox" id="1" style="background-color: black;"></div>
+            <div class="checkbox" id="2" style="background-color: white;"></div>
+            <div class="checkbox" id="3" style="background-color: black;"></div>
+            <div class="checkbox" id="4" style="background-color: white;"></div>
+            <div class="checkbox" id="5" style="background-color: black;"></div>
+            <div class="checkbox" id="6" style="background-color: white;"></div>
+            <div class="checkbox" id="7" style="background-color: black;"></div>
+            <div class="checkbox" id="8" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="2">
+            <div class="checkbox" id="9" style="background-color: white;"></div>
+            <div class="checkbox" id="10" style="background-color: black;"></div>
+            <div class="checkbox" id="11" style="background-color: white;"></div>
+            <div class="checkbox" id="12" style="background-color: black;"></div>
+            <div class="checkbox" id="13" style="background-color: white;"></div>
+            <div class="checkbox" id="14" style="background-color: black;"></div>
+            <div class="checkbox" id="15" style="background-color: white;"></div>
+            <div class="checkbox" id="16" style="background-color: black;"></div>
+        </div>
+        <div class="row" id="3">
+            <div class="checkbox" id="17" style="background-color: black;"></div>
+            <div class="checkbox" id="18" style="background-color: white;"></div>
+            <div class="checkbox" id="19" style="background-color: black;"></div>
+            <div class="checkbox" id="20" style="background-color: white;"></div>
+            <div class="checkbox" id="21" style="background-color: black;"></div>
+            <div class="checkbox" id="22" style="background-color: white;"></div>
+            <div class="checkbox" id="23" style="background-color: black;"></div>
+            <div class="checkbox" id="24" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="4">
+            <div class="checkbox" id="25" style="background-color: white;"></div>
+            <div class="checkbox" id="26" style="background-color: black;"></div>
+            <div class="checkbox" id="27" style="background-color: white;"></div>
+            <div class="checkbox" id="28" style="background-color: black;"></div>
+            <div class="checkbox" id="29" style="background-color: white;"></div>
+            <div class="checkbox" id="30" style="background-color: black;"></div>
+            <div class="checkbox" id="31" style="background-color: white;"></div>
+            <div class="checkbox" id="32" style="background-color: black;"></div>
+        </div>
+        <div class="row" id="5">
+            <div class="checkbox" id="33" style="background-color: black;"></div>
+            <div class="checkbox" id="34" style="background-color: white;"></div>
+            <div class="checkbox" id="35" style="background-color: black;"></div>
+            <div class="checkbox" id="36" style="background-color: white;"></div>
+            <div class="checkbox" id="37" style="background-color: black;"></div>
+            <div class="checkbox" id="38" style="background-color: white;"></div>
+            <div class="checkbox" id="39" style="background-color: black;"></div>
+            <div class="checkbox" id="40" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="6">
+            <div class="checkbox" id="41" style="background-color: white;"></div>
+            <div class="checkbox" id="42" style="background-color: black;"></div>
+            <div class="checkbox" id="43" style="background-color: white;"></div>
+            <div class="checkbox" id="44" style="background-color: black;"></div>
+            <div class="checkbox" id="45" style="background-color: white;"></div>
+            <div class="checkbox" id="46" style="background-color: black;"></div>
+            <div class="checkbox" id="47" style="background-color: white;"></div>
+            <div class="checkbox" id="48" style="background-color: black;"></div>
+        </div>
+        <div class="row" id="7">
+            <div class="checkbox" id="49" style="background-color: black;"></div>
+            <div class="checkbox" id="50" style="background-color: white;"></div>
+            <div class="checkbox" id="51" style="background-color: black;"></div>
+            <div class="checkbox" id="52" style="background-color: white;"></div>
+            <div class="checkbox" id="53" style="background-color: black;"></div>
+            <div class="checkbox" id="54" style="background-color: white;"></div>
+            <div class="checkbox" id="55" style="background-color: black;"></div>
+            <div class="checkbox" id="56" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="8">
+            <div class="checkbox" id="57" style="background-color: white;"></div>
+            <div class="checkbox" id="58" style="background-color: black;"></div>
+            <div class="checkbox" id="59" style="background-color: white;"></div>
+            <div class="checkbox" id="60" style="background-color: black;"></div>
+            <div class="checkbox" id="61" style="background-color: white;"></div>
+            <div class="checkbox" id="62" style="background-color: black;"></div>
+            <div class="checkbox" id="63" style="background-color: white;"></div>
+            <div class="checkbox" id="64" style="background-color: black;"></div>
+        </div>
+    </div>
+    <script>
+        const boardComponent = document.querySelector(".board");
+        let totalNumberOfRows = boardComponent.children.length;
+        let totalNumberOfColumns = boardComponent.children[0].children.length;
+        boardComponent.addEventListener("click", handleMouseOver);
+        // boardComponent.addEventListener("mouseout",removeColorPath);
+        function handleMouseOver(event) {
+            removeColorPath();
+            let currentCellColumn = event.target.id;
+            let currentCellRow = event.target.parentNode.id;
+
+            let top = topPath(currentCellRow, currentCellColumn);
+            let bottom = bottomPath(currentCellRow, currentCellColumn);
+            let left = leftPath(currentCellRow, currentCellColumn);
+            let right = rightPath(currentCellRow, currentCellColumn);
+            let storage = {...top, ...bottom, ...left, ...right};
+            colorPath(storage);
+        }
+        function topPath(currentCellRow, currentCellColumn) {
+            let row = currentCellRow;
+            let col = currentCellColumn;
+            let topPath = {};
+            while (row >= 0 && col >= 0) {
+                topPath[row+"-"+col] = true;
+                row--;
+                col = col - 8;
+            }
+            return topPath;
+        }
+        function bottomPath(currentCellRow, currentCellColumn) {
+            let row = Number(currentCellRow) + 1;
+            let col = Number(currentCellColumn) + 8;
+            let bottomPath = {};
+            while (row <= totalNumberOfRows && (col % 8) <= totalNumberOfColumns * 8) {
+                bottomPath[row+"-"+col] = true;
+                row++;
+                col = col + 8;
+            }
+            return bottomPath;
+        }
+        function leftPath(currentCellRow, currentCellColumn) {
+            let row = currentCellRow;
+            let col = currentCellColumn - 1;
+            let leftPath = {};
+            while ((col % 8) >= 0) {
+                leftPath[row+"-"+col] = true;
+                col--;
+            }
+            return leftPath;
+        }
+        function rightPath(currentCellRow, currentCellColumn) {
+            let row = currentCellRow;
+            let col = Number(currentCellColumn) + 1;
+            let rightPath = {};
+            while (col <= (row * 8)){
+                rightPath[row+"-"+col] = true;
+                col++;
+            }
+            return rightPath;
+        }
+        function colorPath(storage) {
+            Array.from(boardComponent.children).forEach((box) => {
+                Array.from(box.children).forEach((subBox) => {
+                    if (storage[box.id + "-" + subBox.id]) {
+                        //subBox.classList.add("red");
+                        subBox.style.backgroundColor = "red";
+                    }
+                })
+            })
+        }
+        function removeColorPath() {
+            Array.from(boardComponent.children).forEach((box) => {
+                Array.from(box.children).forEach((subBox) => {
+                    //if (subBox.classList.contains("red")) {
+                    //subBox.classList.remove("red");
+                    //}
+                    if (subBox.style.backgroundColor == 'red') {
+                        subBox.style.backgroundColor = subBox.getAttribute('default-bg');
+                    }
+                    else {
+                        subBox.setAttribute('default-bg', subBox.style.backgroundColor);
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+
+</html>
+<!-- Your task is to write a JS program that traces the path of Rook from the checkbox that is clicked by the user.
+
+You are provided with Boilerplate HTML and CSS code, that builds a chessboard on the page.
+
+The HTML has majorly 3 types of components in the following inheritance:
+div.board > div.row > div.checkbox
+
+Here,
+
+1. div.board:
+1.1. contains the entire chessboard
+1.2. has 8 div.row as immediate children
+
+2. div.row:
+2.1. contains a single horizontal row in the chessboard
+2.2. there are a total of 8 div.row
+2.3. each div.row contains 8 div.checkbox
+
+3. div.checkbox:
+3.1. depicts a single checkbox in the board
+3.2. there are a total of 64 div.checkbox in the board
+3.3. each checkbox has a defined style.backgroundColor of white or black
+
+Your task is to:
+1. Trace the path of Rook from any checkbox that is clicked by the user.
+2. Look at the below example to understand the path of a Rook (horizontal and vertical).
+3. Tracing the path means to set the background color property as 'red' for all the checkboxes on the path.
+Note:
+Additionally, as a bonus, you can also try to refresh the board if the user clicks on some other checkbox, and then trace the path from the new checkbox. (Code for this is provided in the solution)
+
+Write the solution program in script.js file.
+
+Don't make any changes to the boilerplate code. -->

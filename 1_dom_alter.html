@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    <style>
+        .hi {
+            color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1 id="h1Element">Heading 1</h1>
+        <h1 id="h1Element2">Heading 1</h1>
+        <h2>Heading 2</h2>
+        <h3 class="hi">Heading 3</h3>
+        <input type="text">
+        <p class="para">Para1</p>
+        <p class="para">Para2</p>
+        <p class="para">Para3</p>
+        <button onclick="alterDOM()">Alter DOM</button>
+    </div>
+    <script>
+        const h1ElementAll = document.querySelectorAll("h1");
+        console.log(h1ElementAll);
+        // h1ElementAll.map((element)=>console.log(element)); // This will not work. h1ElementAll.map is not a function error.
+        Array.from(h1ElementAll).map((element) => console.log(element));
+        h1ElementAll.forEach((element) => console.log(element)); // This will work. forEach is used to iterate over the collection.
+        const h1Element1 = document.getElementById("h1Element"); // ID Selector
+        const h1Element2 = document.querySelector("#h1Element"); // ID Selector
+        const h2Element1 = document.querySelector("h2"); // Element Selector
+        const h3Element1 = document.getElementsByClassName("hi")[0]; // Class Selector
+        const h3Element2 = document.querySelector(".hi"); // Class Selector
+        const inputElement1 = document.querySelector("input[type=text]"); // Attribute Selector
+        inputElement1.setAttribute("type", "email");
+        const allPara = document.getElementsByClassName("para");
+        console.log(allPara);
+        // allPara.map((element)=>console.log(element)); // This will not work. allPara.map is not a function.
+        // allPara.forEach((element)=>console.log(element)); // This will not work. allPara.forEach is not a function.
+        Array.from(allPara).forEach((element) => console.log(element));
+        function alterDOM() {
+            h1Element1.innerText = "Heading 1 Altered";
+            h2Element1.textContent = "Heading 2 Altered";
+            h3Element1.innerText = "Heading 3 Altered";
+        }
+    </script>
+</body>
+
+</html>

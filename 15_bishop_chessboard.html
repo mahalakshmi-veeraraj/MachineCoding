@@ -1,0 +1,176 @@
+<!-- requirements.
+1 -> bishop movements to be visible on chessboard.
+questions.
+2 -> row and column -> 8 * 8 -> 12 * 12 -> row = 14, column = 16.
+color -> black and white.
+do you want any other chess piece in addition to bishop -> queen, knight -> horse, rook -> elephant.
+
+planning.
+1. simple UI of chessboard.
+2. add event listener on each cell of chessboard.
+3. show the possible movement of bishop. -->
+<html>
+<style>
+    h1 {
+        text-align: center;
+    }
+    #table {
+        margin: 0 auto;
+    }
+    .box {
+        height: 5rem;
+        width: 5rem;
+        border: 1px solid black;
+    }
+    .black {
+        background-color: black;
+    }
+    .white {
+        background-color: rgb(red, green, blue)
+    }
+    .green {
+        background-color: rgb(115, 149, 82);
+    }
+    .lightgreen{
+        background-color: rgb(235, 236, 208);
+    }
+    .red {
+        background-color: red;
+    }
+</style>
+
+<body>
+    <h1>ChessBoard</h1>
+    <table id="table" cellspacing="0">
+        
+    </table>
+    <script>
+        window.addEventListener("load", function() {
+            const table = document.getElementById("table");
+            let numberOfRows = 8;
+            let numberOfColumns = 8;
+            let color1 = "green";
+            let color2 = "lightgreen";
+            for (let row = 0; row < numberOfRows; row++) {
+                let tr = document.createElement("tr");
+                for (let col = 0; col < numberOfColumns; col++) {
+                    let td = document.createElement("td");
+                    td.setAttribute("class","box");
+                    // td.innerText = `${row} - ${col}`;
+                    td.setAttribute("data-index",`${row}-${col}`);
+                    let color = (row + col) % 2 == 0 ? color1 : color2;
+                    td.classList.add(color);
+                    tr.appendChild(td);
+                }
+                table.appendChild(tr);
+            }
+            table.addEventListener("mouseover",handleMouseOver);
+            table.addEventListener("mouseout",removeColorPath);
+            function handleMouseOver(event) {
+                let selectedCell = event.target;
+                console.log(selectedCell);
+                let [row, col] = selectedCell.dataset.index.split("-");
+
+                let topRightPath = topRight(row, col);
+                let topLeftPath = topLeft(row, col);
+                let bottomRightPath = bottomRight(row, col);
+                let bottomLeftPath = bottomLeft(row, col);
+
+                let storageIndex = {...topRightPath, ...topLeftPath, ...bottomRightPath, ...bottomLeftPath};
+                colorPath(storageIndex);
+            }
+            function topRight(row, col) {
+                let storage = {};
+                row--;
+                col++;
+                while (row >= 0 && col < numberOfColumns) {
+                    storage[`${row}-${col}`] = true;
+                    row--;
+                    col++;
+                }
+                return storage;
+            }
+            function topLeft(row, col) {
+                let storage = {};
+                row--;
+                col--;
+                while (row >= 0 && col >= 0) {
+                    storage[`${row}-${col}`] = true;
+                    row--;
+                    col--;
+                }
+                return storage;
+            }
+            function bottomRight(row, col) {
+                let storage = {};
+                row++;
+                col++;
+                while (row < numberOfRows && col < numberOfColumns) {
+                    storage[`${row}-${col}`] = true;
+                    row++;
+                    col++;
+                }
+                return storage;
+            }
+            function bottomLeft(row, col) {
+                let storage = {};
+                row++;
+                col--;
+                while (row < numberOfRows && col >= 0) {
+                    storage[`${row}-${col}`] = true;
+                    row++;
+                    col--;
+                }
+                return storage;
+            }
+            function colorPath(storageIndex) {
+                const allBoxes = document.querySelectorAll(".box");
+                Array.from(allBoxes).forEach((box)=>{
+                    let idx = box.dataset.index;
+                    if(storageIndex[idx]) {
+                        box.classList.add("red");
+                    }
+                })
+            }
+            function removeColorPath() {
+                const allBoxes = document.querySelectorAll(".box");
+                Array.from(allBoxes).forEach((box)=>{
+                    if (box.classList.contains("red")) {
+                        box.classList.remove("red");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+    
+</html>
+
+<!-- Problem Description:
+Your task is to write a JS program that traces the path of Bishop from the checkbox that is clicked by the user.
+
+You are provided with Boilerplate HTML and CSS code, that builds a chessboard on the page.
+
+The HTML has majorly 3 types of components in the following inheritance:
+div.board > div.row > div.checkbox
+
+Here,
+
+1. div.board:
+1.1. contains the entire chessboard
+1.2. has 8 div.row as immediate children
+
+2. div.row:
+2.1. contains a single horizontal row in the chessboard
+2.2. there are a total of 8 div.row
+2.3. each div.row contains 8 div.checkbox
+
+3. div.checkbox:
+3.1. depicts a single checkbox in the board
+3.2. there are a total of 64 div.checkbox in the board
+3.3. each checkbox has a defined style.backgroundColor of white or black
+
+Your task is to:
+1. Trace the path of Bishop from any checkbox that is clicked by user.
+2. Look at the below example to understand the path of a Bishop (cross diagonals).
+3. Tracing the path means to set the background color property as 'red' for all the checkboxes on the path. -->

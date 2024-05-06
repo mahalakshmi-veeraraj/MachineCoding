@@ -1,0 +1,103 @@
+<!-- Problem Statement:
+1. On typing in search box it should suggest some terms.
+2. User should be able to click those options.
+3. Should be optimized or performant enough.
+4. It should avoid uneccessary DB calls.
+5. Previously fetched data should persist.
+
+Question:
+1. Data Source? We can use API to get the data or we can create some data locally and then use settimeout
+to emulate artificial delay.
+2. Minimum character after which suggestion should start?
+
+Planning:
+1. HTML -> UI -> Inputbox.
+2. Get characters typed in inputbox.
+3. Search for suggestions using characters via API.
+4. Show the suggestions. 
+
+1. User types in. 
+2. Set a timer of 1000 milliseconds.
+3. If no input, call fetch.
+4. If more input, destroy previous timer and add new timer.
+-->
+
+<html>
+<style>
+    .auto-complete {
+        border: 2px solid red;
+        width: 30rem;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .search-input {
+        width: 90%;
+        height: 3rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<body>
+    <div class="auto-complete">
+        <h2>Auto Complete</h2>
+        <input type="text" id="search-input" class="search-input">
+        <ul class="suggestion-box"></ul>
+    </div>
+    <script>
+        const ulElement = document.querySelector("ul");
+        const inputBox = document.querySelector("#search-input");
+        inputBox.addEventListener("input", handleInput);
+        let debouncedFn;
+        async function handleInput(event) {
+            let inputText = event.target.value;
+            if (!debouncedFn)
+                debouncedFn = debounce(getCountries, 3000);
+            // debouncedFn is a Closure - contains a function along with the lexical environment references.
+            let filteredData = await debouncedFn(inputText);
+            populateSuggestion(filteredData);
+        }
+        // Debouncing is a way to limit the number of function execution.
+        // Debouncing - use debouncing if you want to process the latest request.
+        function debounce(fn, delay) {
+            let timerID = null;
+            return function (fnArgs) {
+                if (timerID) {
+                    console.log("Timer cleared");
+                    clearTimeout(timerID);
+                }
+                timerID = setTimeout(() => {
+                    fn(fnArgs);
+                }, delay);
+            }
+        }
+        async function getCountries(input) {
+            try {
+                const url = `https://restcountries.com/v3.1/name/${input}`;
+                const promiseResponse = await fetch(url);
+
+                const reponseData = await promiseResponse.json();
+                console.log("Input typed is " + input);
+                console.log(reponseData);
+                return reponseData;
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        function populateSuggestion(filteredData) {
+            if (filteredData.length == 0) return;
+            ulElement.innerHTML = "";
+            const fragmnet = document.createDocumentFragment();
+            filteredData.forEach((object) => {
+                let countryName = object.name.common;
+                const liElement = document.createElement("li");
+                liElement.innerText = countryName;
+                fragmnet.appendChild(liElement);
+            });
+            ulElement.appendChild(fragmenet);
+        }
+    </script>
+</body>
+
+</html>

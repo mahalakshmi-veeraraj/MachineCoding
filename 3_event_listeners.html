@@ -1,0 +1,26 @@
+<html>
+
+<body>
+    <input type="text" autofocus>
+    <button class="todobtn">Click Me</button>
+    <ul id="ul">
+
+    </ul>
+    <script>
+        const inputElement = document.querySelector("input");
+        const todobtn = document.getElementsByClassName("todobtn")[0];
+        const ulElement = document.getElementById("ul");
+        // addEventListener - Procedures that are executed when an event occurs.
+        // These callbacks are going to be async in nature.
+        todobtn.addEventListener("click", callBackFn);
+        function callBackFn() {
+            const liElement = document.createElement("li");
+            liElement.innerText = inputElement.value;
+            ulElement.appendChild(liElement);
+            inputElement.value = "";
+            inputElement.focus();
+        }
+    </script>
+</body>
+
+</html>

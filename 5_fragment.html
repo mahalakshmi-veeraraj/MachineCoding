@@ -1,0 +1,36 @@
+<html>
+    <body>
+        <ul>
+            <li>Element 1</li>
+            <li>Element 2</li>
+        </ul>
+        <script>
+            const ulElement = document.querySelector("ul");
+            console.log(ulElement);
+            // for (let i = 3; i <= 100; i++) {
+            //     const li = document.createElement("li");
+            //     li.innerText = "Element "+i;
+            //     ulElement.appendChild(li);
+            // } // 97 times DOM will be completely re render from scratch.
+            // It increases the response time and directly affect the application performance.
+            // Way1
+            // const tempDivElement = document.createElement("div");
+            // for (let i = 3; i <= 100; i++) {
+            //     const li = document.createElement("li");
+            //     li.innerText = "Element "+i;
+            //     tempDivElement.appendChild(li);
+            // }
+            // ulElement.appendChild(tempDivElement); // Div element will be added into ul element as a child.
+            // We need to add ul elements without the ul element contains div element.
+            // For that we will be using the fragements.
+            // Way 2
+            const fragmentElement = document.createDocumentFragment();
+            for (let i = 3; i <= 100; i++) {
+                const li = document.createElement("li");
+                li.innerText = "Element "+i;
+                fragmentElement.appendChild(li);
+            }
+            ulElement.appendChild(fragmentElement);
+        </script>
+    </body>
+</html>

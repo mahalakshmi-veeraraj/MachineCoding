@@ -1,0 +1,18 @@
+<!-- Example of memory leak -->
+<html>
+    <body>
+        <script>
+            'use strict'; // In order to avoid breaking the standard coding rules it is always recommended to use strict mode.
+            b = 15; // Since we did not specified var, let, const this variable is in by default global scope.
+            function abc() {
+                console.log(b); // 15.
+                c = "Hi people"; // c variable is in by default global scope.
+                b++;
+            }
+            abc();
+            console.log("c is "+c); // Hi people.
+            b++;
+            console.log("b is "+b); // 17.
+        </script>
+    </body>
+</html>

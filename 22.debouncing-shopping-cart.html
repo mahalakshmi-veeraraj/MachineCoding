@@ -1,0 +1,119 @@
+<!-- Problem Description:
+Debounce-Enabled Shopping Cart
+
+In this coding exercise, you will implement a debounce mechanism to enhance the shopping cart functionality of a web page. 
+Currently, when a user clicks on the "Buy" button of a product multiple times in quick succession, 
+the product gets added to the cart repeatedly. This behaviour is not ideal for a real e-commerce site. 
+Your task is to modify the code to ensure that the product is added to the cart only once, even if the user clicks the "Buy" 
+button multiple times in rapid succession.
+
+Instructions:
+You are provided with an HTML document that contains a list of products, each with a "Buy" button displaying the product's price.
+The initial code sets up event listeners on each "Buy" button to add the corresponding product's price to the total cart value. 
+However, this leads to unwanted behavior when the user rapidly clicks on a button.
+To address this, implement a debounce mechanism using a debounce function. This function takes two arguments: the event handler function and a delay in milliseconds. It ensures that the event handler is triggered only after the user stops interacting for the specified delay.
+Inside the loop that iterates over the "Buy" buttons, update the event listener to use the debounced event handler for processing clicks.
+Test your implementation by clicking on the "Buy" buttons rapidly. Verify that the product is added to the cart only once, regardless of how quickly the user clicks.
+
+Note:
+
+Remember that debounce is a common technique to improve user experience in scenarios like search inputs, button clicks, and other interactions where rapid consecutive actions might lead to undesired results. -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        div {
+            border: 1px solid;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .products {
+            margin: 2rem;
+            height: 5rem;
+            width: 5rem;
+        }
+
+        .products {
+            text-align: center;
+        }
+
+        .products h3 {
+            font-size: 1rem;
+        }
+
+        button {
+            font-size: 1rem;
+            display: inline-block;
+            width: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Don't make any changes to the below HTML code -->
+    <div class="container">
+        <div class="products">
+            <h3>Price: Rs300</h3>
+            <button data-price="300">Buy</button>
+        </div>
+        <div class="products">
+            <h3>Price: Rs100</h3>
+            <button data-price="100">Buy</button>
+        </div>
+        <div class="products">
+            <h3>Price: Rs200</h3>
+            <button data-price="200">Buy</button>
+        </div>
+        <div class="products">
+            <h3>Price: Rs400</h3>
+            <button data-price="400">Buy</button>
+        </div>
+    </div>
+    <div class="cart-total">
+        <h3>Total:</h3>
+        <p>Rs <span>0</span></p>
+    </div>
+
+    <script id="solution">
+        // Update the code given below to implement the debouncing functionality ======================================
+        function updatePrice(e) {
+            let price = Number(e.currentTarget.getAttribute("data-price"));
+            tPrice += price;
+            pricetext.innerText = tPrice;
+        }
+        function debouncing(callBackFunction, delay) {
+            return function (...args) {
+                clearTimeout(timout)
+                timout = setTimeout(() => {
+                    callBackFunction(...args);
+                }, delay);
+            }
+        }
+        let timout;
+        let debouncedFn = debouncing(updatePrice, 5000);
+        let tPrice = 0;
+        let btns = document.querySelectorAll("button");
+        let pricetext = document.querySelector("p span");
+        for (let i = 0; i < btns.length; i++) {
+            btns[i].addEventListener("click", function (e) {
+                debouncedFn(e);
+            });
+        }
+    </script>
+</body>
+se
+
+</html>

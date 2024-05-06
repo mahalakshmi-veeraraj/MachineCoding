@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess</title>
+    <style>
+        div.board {
+            border-style: double;
+            height: 578px;
+            width: 578px;
+        }
+
+        div.row {
+            display: flex;
+        }
+
+        div.checkbox {
+            height: 70px;
+            width: 70px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="board">
+        <div class="row" id="1">
+            <div class="checkbox" id="1" style="background-color: black;"></div>
+            <div class="checkbox" id="2" style="background-color: white;"></div>
+            <div class="checkbox" id="3" style="background-color: black;"></div>
+            <div class="checkbox" id="4" style="background-color: white;"></div>
+            <div class="checkbox" id="5" style="background-color: black;"></div>
+            <div class="checkbox" id="6" style="background-color: white;"></div>
+            <div class="checkbox" id="7" style="background-color: black;"></div>
+            <div class="checkbox" id="8" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="2">
+            <div class="checkbox" id="9" style="background-color: white;"></div>
+            <div class="checkbox" id="10" style="background-color: black;"></div>
+            <div class="checkbox" id="11" style="background-color: white;"></div>
+            <div class="checkbox" id="12" style="background-color: black;"></div>
+            <div class="checkbox" id="13" style="background-color: white;"></div>
+            <div class="checkbox" id="14" style="background-color: black;"></div>
+            <div class="checkbox" id="15" style="background-color: white;"></div>
+            <div class="checkbox" id="16" style="background-color: black;"></div>
+        </div>
+        <div class="row" id="3">
+            <div class="checkbox" id="17" style="background-color: black;"></div>
+            <div class="checkbox" id="18" style="background-color: white;"></div>
+            <div class="checkbox" id="19" style="background-color: black;"></div>
+            <div class="checkbox" id="20" style="background-color: white;"></div>
+            <div class="checkbox" id="21" style="background-color: black;"></div>
+            <div class="checkbox" id="22" style="background-color: white;"></div>
+            <div class="checkbox" id="23" style="background-color: black;"></div>
+            <div class="checkbox" id="24" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="4">
+            <div class="checkbox" id="25" style="background-color: white;"></div>
+            <div class="checkbox" id="26" style="background-color: black;"></div>
+            <div class="checkbox" id="27" style="background-color: white;"></div>
+            <div class="checkbox" id="28" style="background-color: black;"></div>
+            <div class="checkbox" id="29" style="background-color: white;"></div>
+            <div class="checkbox" id="30" style="background-color: black;"></div>
+            <div class="checkbox" id="31" style="background-color: white;"></div>
+            <div class="checkbox" id="32" style="background-color: black;"></div>
+        </div>
+        <div class="row" id="5">
+            <div class="checkbox" id="33" style="background-color: black;"></div>
+            <div class="checkbox" id="34" style="background-color: white;"></div>
+            <div class="checkbox" id="35" style="background-color: black;"></div>
+            <div class="checkbox" id="36" style="background-color: white;"></div>
+            <div class="checkbox" id="37" style="background-color: black;"></div>
+            <div class="checkbox" id="38" style="background-color: white;"></div>
+            <div class="checkbox" id="39" style="background-color: black;"></div>
+            <div class="checkbox" id="40" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="6">
+            <div class="checkbox" id="41" style="background-color: white;"></div>
+            <div class="checkbox" id="42" style="background-color: black;"></div>
+            <div class="checkbox" id="43" style="background-color: white;"></div>
+            <div class="checkbox" id="44" style="background-color: black;"></div>
+            <div class="checkbox" id="45" style="background-color: white;"></div>
+            <div class="checkbox" id="46" style="background-color: black;"></div>
+            <div class="checkbox" id="47" style="background-color: white;"></div>
+            <div class="checkbox" id="48" style="background-color: black;"></div>
+        </div>
+        <div class="row" id="7">
+            <div class="checkbox" id="49" style="background-color: black;"></div>
+            <div class="checkbox" id="50" style="background-color: white;"></div>
+            <div class="checkbox" id="51" style="background-color: black;"></div>
+            <div class="checkbox" id="52" style="background-color: white;"></div>
+            <div class="checkbox" id="53" style="background-color: black;"></div>
+            <div class="checkbox" id="54" style="background-color: white;"></div>
+            <div class="checkbox" id="55" style="background-color: black;"></div>
+            <div class="checkbox" id="56" style="background-color: white;"></div>
+        </div>
+        <div class="row" id="8">
+            <div class="checkbox" id="57" style="background-color: white;"></div>
+            <div class="checkbox" id="58" style="background-color: black;"></div>
+            <div class="checkbox" id="59" style="background-color: white;"></div>
+            <div class="checkbox" id="60" style="background-color: black;"></div>
+            <div class="checkbox" id="61" style="background-color: white;"></div>
+            <div class="checkbox" id="62" style="background-color: black;"></div>
+            <div class="checkbox" id="63" style="background-color: white;"></div>
+            <div class="checkbox" id="64" style="background-color: black;"></div>
+        </div>
+    </div>
+
+    <script>
+        const boardComponent = document.querySelector(".board");
+        let totalNumberOfRows = boardComponent.children.length;
+        let totalNumberOfColumns = boardComponent.children[0].children.length;
+        boardComponent.addEventListener("click", handleMouseOver);
+        // boardComponent.addEventListener("mouseout",removeColorPath);
+        function handleMouseOver(event) {
+            removeColorPath();
+            let currentCellColumn = event.target.id;
+            let currentCellRow = event.target.parentNode.id;
+
+            let topLeft = topLeftPath(currentCellRow, currentCellColumn);
+            let topRight = topRightPath(currentCellRow, currentCellColumn);
+            let bottomLeft = bottomLeftPath(currentCellRow, currentCellColumn);
+            let bottomRight = bottomRightPath(currentCellRow, currentCellColumn);
+            let storage = { ...topLeft, ...topRight, ...bottomLeft, ...bottomRight };
+            colorPath(storage);
+        }
+        function topLeftPath(currentCellRow, currentCellColumn) {
+            // Preparing top left.
+            let topLeft = {};
+            let row = currentCellRow;
+            let col = currentCellColumn % 8;
+            if (col == 0) {
+                col = 8;
+            }
+            while (row > 0 && col > 0) {
+                topLeft[row + "-" + (((row - 1) * 8) + col)] = true;
+                row--;
+                col--;
+            }
+            return topLeft;
+        }
+        function topRightPath(currentCellRow, currentCellColumn) {
+            // Preparing top right.
+            let topRight = {};
+            let row = currentCellRow - 1;
+            let col = currentCellColumn % 8;
+            if (col == 0) {
+                col = 8;
+            }
+            col++;
+            while (row > 0 && col <= totalNumberOfColumns) {
+                topRight[row + "-" + (((row - 1) * 8) + col)] = true;
+                row--;
+                col++;
+            }
+            return topRight;
+        }
+        function bottomLeftPath(currentCellRow, currentCellColumn) {
+            // Preparing bottom left.
+            let bottomLeft = {};
+            let row = Number(currentCellRow) + 1;
+            let col = currentCellColumn % 8;
+            if (col == 0) {
+                col = 8;
+            }
+            col--;
+            while (row <= totalNumberOfRows && col > 0) {
+                bottomLeft[row + "-" + (((row - 1) * 8) + col)] = true;
+                row++;
+                col--;
+            }
+            return bottomLeft;
+        }
+        function bottomRightPath(currentCellRow, currentCellColumn) {
+            // Preparing bottom right.
+            let bottomRight = {};
+            let row = Number(currentCellRow) + 1;
+            let col = currentCellColumn % 8;
+            if (col == 0) {
+                col = 8;
+            }
+            col++;
+            while (row <= totalNumberOfRows && col <= totalNumberOfColumns) {
+                bottomRight[row + "-" + (((row - 1) * 8) + col)] = true;
+                row++;
+                col++;
+            }
+            return bottomRight;
+        }
+        function colorPath(storage) {
+            Array.from(boardComponent.children).forEach((box) => {
+                Array.from(box.children).forEach((subBox) => {
+                    if (storage[box.id + "-" + subBox.id]) {
+                        //subBox.classList.add("red");
+                        subBox.style.backgroundColor = "red";
+                    }
+                })
+            })
+        }
+        function removeColorPath() {
+            Array.from(boardComponent.children).forEach((box) => {
+                Array.from(box.children).forEach((subBox) => {
+                    //if (subBox.classList.contains("red")) {
+                    //subBox.classList.remove("red");
+                    //}
+                    if (subBox.style.backgroundColor == 'red') {
+                        subBox.style.backgroundColor = subBox.getAttribute('default-bg');
+                    }
+                    else {
+                        subBox.setAttribute('default-bg', subBox.style.backgroundColor);
+                    }
+                })
+            })
+        }
+    </script>
+</body>
+
+</html>

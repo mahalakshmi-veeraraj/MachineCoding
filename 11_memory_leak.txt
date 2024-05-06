@@ -1,0 +1,6 @@
+What is memory leak?
+When a memory is created in a heap, and forgot to delete it even if no one is using it.
+
+Consequences?
+It affects the performance.
+

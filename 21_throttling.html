@@ -1,0 +1,64 @@
+<html>
+    <style>
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-direction: column;
+            /* height: 300px;
+            width: 500px; */
+            justify-content: center;
+            align-items: center;
+            margin: auto 0;
+        }
+        button {
+            width: 100px;
+            height: 30px;
+            background-color: coral;
+        }
+    </style>
+    <body>
+        <div class="container">
+            <h1>Money Transfer Details</h1>
+            <label>From Account: XXXX </label>
+            <label>To Account: YYYY</label>
+            <label>Transfer Amount: 2,00,000</label>
+            <button>Transfer</button>
+        </div>
+        <script>
+            // When to use addEventListener? we have onclick to use in html for executing a function when user clicks in.
+            // When we need to handle muliple callbacks on a single element when an event occurs use eventListeners.
+            const buttonElement = document.querySelector("button");
+            buttonElement.addEventListener("click", clickCallBackFn);
+            let throttledFn;
+            let saveObject = {};
+            // Throttling - Limit the number of API calls.
+            // Throttling - Process first request, wait for some time and then take the second request use throttling.
+            function processTransfer(event) {
+                let flag = false;
+                return function() {
+                    if (!flag) {
+                        flag = true;
+                        setTimeout(() => {
+                            console.log("Transfer Process Completed");
+                            flag = true;
+                            saveObject = null;
+                        }, 5000);
+                    }
+                    else {
+                        console.log("Multiple Clicks to transfer money at a single moment.");
+                        console.log("Transfer process not initiated");
+                    }
+                }
+            }
+            function clickCallBackFn() {
+                saveObject = {};
+                saveObject.fromAccount = 'XXXX';
+                saveObject.toAccount = 'YYYY';
+                saveObject.money = 200000;
+                if (!throttledFn)
+                    throttledFn = transferMoney(event);
+                throttledFn();
+            }
+        </script>
+    </body>
+</html>

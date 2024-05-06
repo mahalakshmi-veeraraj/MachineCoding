@@ -1,0 +1,47 @@
+<html>
+    <style>
+        #outerBox {
+            border: 2px solid black;
+            padding: 10px;
+            width: 250px; /* Adjust width as needed */
+        }
+        
+        #innerBox1 {
+            border: 2px solid red;
+            padding: 10px;
+        }
+        
+        #innerBox2 {
+            border: 2px solid blue;
+            padding: 10px;
+        }
+        
+        #innerBox3 {
+            border: 2px solid purple;
+            padding: 10px;
+            height: 100px;
+            width: 180px;
+            text-align: center;
+        }
+    </style>
+    <body>
+        <div id="outerBox">
+            <div id="innerBox1">
+                <div id="innerBox2">
+                    <div id="innerBox3">
+                        Heading1
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const outerBoxElement = document.getElementById("outerBox");
+            outerBoxElement.addEventListener("click",clickEventCallBackFn);
+            // Event Bubbling - Example.
+            function clickEventCallBackFn(event) { 
+                console.log(event.target); // Return the element on which the event is occured.
+                console.log(event.currentTarget); // Return the element on which the event listener is called.
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,24 @@
+HTTP - stands for HyperText Transfer Protocol.
+HTTP is a mechanism which is used for communication between client such as web browsers, and servers.
+It must have some set of rules for how messages should be transmitted and formatted.
+Header - Meta data of a request.
+Methods:
+1. GET - via which we get data from server.
+2. POST - via which we send data to server.
+3. PUT - when we want to displace the entire object. 
+4. PATCH - when we want to replace a single key value pair.
+5. DELETE - delete data stored on server.
+6. CONNECT - establishes a connection tunnel to server.
+Status Code: basically let us know the status of our request made.
+1. 1XX - 100, 101, 102 .... 199 - Information Responses 
+2. 2XX - 200, 201, 202 .... 299 - Successful Responses
+3. 3XX - 300, 301, 302 .... 399 - Redirection Responses
+4. 4XX - 400, 401, 402 .... 499 - Client error responses
+5. 5XX - 500, 501, 502 .... 599 - Server error responses
+
+HTTP is stateless. What it means?
+Stateless means each request from client to server is independent.
+If I get the category list data, and if I again hit the get request to get the same category list data 
+then will get a new result only it will not remember the old value and return that as result.
+Every HTTP request is getting served freshly everytime.
+This is waht meant by stateless.

@@ -1,0 +1,27 @@
+<!-- Example of memory leak -->
+<html>
+    <body>
+        <script>
+            let theThing = null;
+            let replaceThing = function() {
+                console.log("Something");
+                let originalThing = theThing;
+                let unusedFn = function() {
+                    if(originalThing) {
+                        console.log("hi");
+                    }
+                }
+                theThing = {
+                    longStr : new Array(1000000),
+                    greet : function() {
+                        console.log("Hi inside");
+                    }
+                }
+            }
+            setInterval(() => {
+                replaceThing();
+            }, 2000);
+            // avoid storing large data in variables of they are going to be a part of closures.
+        </script>
+    </body>
+</html>

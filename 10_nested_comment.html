@@ -1,0 +1,88 @@
+<html>
+<style>
+    .comment-text {
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+    .comment-reply-container {
+        margin-left: 4rem;
+    }
+    .comment-container {
+        margin-left: 4rem;
+    }
+    .reply {
+        color: blue;
+        font-size: 20px;
+    }
+    .btn-submit {
+        background-color: blue;
+        color: white;
+        margin-top: 10px;
+        margin-left: 25px;
+        width: 100px;
+        height: 30px;
+    }
+    .reply-input {
+        width: 300px;
+        height: 30px;
+        margin-top: 10px;
+    } 
+</style>
+
+<body>
+    <div class="container">
+        <div class="comment-container">
+            <div class="comment-card">
+                <div class="comment-text">Do you think HTML/CSS is enough to get a job?</div>
+                <div class="reply">Add a reply</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const containerElement = document.querySelector(".container");
+        containerElement.addEventListener("click", handleClickCallBackFn);
+        function handleClickCallBackFn(event) {
+            const target = event.target;
+            if (target.classList.contains("reply")) {
+                createReplyContainer(event);
+            }
+            else if (target.classList.contains("btn-submit")) {
+                createComment(event);
+            }
+        }
+        function createReplyContainer(event) {
+            // Creating Elements.
+            const replyContainer = document.createElement("div");
+            const input = document.createElement("input");
+            const button = document.createElement("button");
+
+            // Setting the attributes to the parent and child elements that are newly created.
+            replyContainer.setAttribute("class", "comment-reply-container");
+            input.setAttribute("type", "text");
+            input.setAttribute("class","reply-input");
+            input.setAttribute("placeholder", "Write your comment");
+            button.setAttribute("class", "btn-submit");
+            button.innerText = "POST";
+
+            // Appending the child element to the main reply container.
+            replyContainer.appendChild(input);
+            replyContainer.appendChild(button);
+            event.target.parentNode.appendChild(replyContainer);
+        }
+        function createComment(event) {
+            const commentContainer = document.createElement("div");
+            
+            const comment = event.target.previousElementSibling.value;
+            commentContainer.innerHTML = `<div class="comment-card">
+                    <div class="comment-text">${comment}</div><div class="reply">Add a reply</div>
+                </div>`;
+            commentContainer.setAttribute("class","comment-container");
+
+            const replyContainer = event.target.parentNode;
+            const commentCard = replyContainer.parentNode;
+            commentCard.replaceChild(commentContainer, replyContainer);
+        }
+    </script>
+</body>
+
+</html>

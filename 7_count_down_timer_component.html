@@ -1,0 +1,179 @@
+<html>
+<style>
+    #container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #mainContainer {
+        display: flex;
+        gap: 10px;
+    }
+
+    #hours,
+    #minutes,
+    #seconds {
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    button {
+        width: 100px;
+        height: 30px;
+    }
+</style>
+
+<body>
+    <div id="container">
+        <h1>Count Down Timer</h1>
+        <div id="mainContainer">
+            <div id="hours">
+                <label>Hours</label>
+                <input type="number" autofocus placeholder="00" id="hrs">
+            </div>
+            <div id="minutes">
+                <label>Minutes</label>
+                <input type="number" placeholder="00" id="mins">
+            </div>
+            <div id="seconds">
+                <label>Seconds</label>
+                <input type="number" placeholder="00" id="secs">
+            </div>
+        </div>
+        <div id="btns">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="continue">Continue</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+    <script>
+        const btnsElement = document.getElementById("btns");
+        const mainContainerElement = document.getElementById("mainContainer");
+        btnsElement.addEventListener("click", handleClickCallBackFn);
+        mainContainerElement.addEventListener("input", handleInputCallBackFn);
+        let hrs;
+        let mins;
+        let secs;
+        let intervalID;
+        let timeInSec = 0;
+        function handleClickCallBackFn(event) {
+            let inputType = event.target.id;
+            switch (inputType) {
+                case "start":
+                    timeInSec = (hrs ? hrs * 3600 : 0) + (mins ? mins * 60 : 0) + (secs ? secs * 1 : 0);
+                    handleStartAction();
+                    break;
+                case "pause":
+                    handlePauseAction();
+                    break;
+                case "continue":
+                    handleContinueAction();
+                    break;
+                case "reset":
+                    handleResetAction();
+                    break;
+            }
+        }
+        function handleInputCallBackFn(event) {
+            if (event.target.value < 0) {
+                alert("Please input positive number");
+                event.target.value = "00";
+            }
+            else if (event.target.value.length > 2) {
+                event.target.value = event.target.value.slice(0, 2);
+            }
+            let inputType = event.target.id;
+            switch (inputType) {
+                case "hrs":
+                    hrs = event.target.value;
+                    break;
+                case "mins":
+                    mins = event.target.value;
+                    break;
+                case "secs":
+                    secs = event.target.value;
+                    break;
+            }
+        }
+        function handleStartAction() {
+            if (timeInSec == 0) {
+                return;
+            }
+            display(timeInSec);
+            // setInterval - Asynchronous built in function in JS.
+            intervalID = setInterval(() => {
+                timeInSec = timeInSec - 1; // timeLeft - variable is accessible through lexical scope references.
+                display(timeInSec);
+                if (timeInSec == 0) {
+                    alert("timer finished");
+                    clearInterval(intervalID);
+                }
+            }, 1000);
+            // setInterval repeatedly calls the call back function after the specific time is elapsed.
+        }
+        function display(leftOverTimeInSec) {
+            let hrs = parseInt(leftOverTimeInSec / 3600);
+            leftOverTimeInSec = parseInt(leftOverTimeInSec % 3600);
+            let mins = parseInt(leftOverTimeInSec / 60);
+            let secs = parseInt(leftOverTimeInSec % 60);
+            let mainContainerElementChildArr = Array.from(mainContainerElement.children);
+            mainContainerElementChildArr.forEach((element) => {
+                let childrenElementArray = Array.from(element.children);
+                childrenElementArray.forEach((childElement) => {
+                    let inputType = childElement.getAttribute("id");
+                    switch (inputType) {
+                        case "hrs":
+                            childElement.value = hrs;
+                            break;
+                        case "mins":
+                            childElement.value = mins;
+                            break;
+                        case "secs":
+                            childElement.value = secs;
+                            break;
+                    }
+                });
+            });
+        }
+        function handlePauseAction() {
+            clearInterval(intervalID);
+        }
+        function handleContinueAction() {
+            handleStartAction();
+        }
+        function handleResetAction() {
+            clearInterval(intervalID);
+            timeInSec = 0;
+            let mainContainerElementChildArr = Array.from(mainContainerElement.children);
+            mainContainerElementChildArr.forEach((element) => {
+                let childrenElementArray = Array.from(element.children);
+                childrenElementArray.forEach((childElement) => {
+                    let inputType = childElement.getAttribute("id");
+                    switch (inputType) {
+                        case "hrs":
+                            childElement.value = "00";
+                            childElement.focus();
+                            break;
+                        case "mins":
+                            childElement.value = '00';
+                            break;
+                        case "secs":
+                            childElement.value = '00';
+                            break;
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- About setInterval:
+'setInterval' is a JavaScript function used to repeatedly execute a function or piece of code 
+at specified intervals (in milliseconds).
+It returns a unique interval ID which can be used to later clear or stop the interval.
+clearInterval(intervalID) is used to stop the interval. -->

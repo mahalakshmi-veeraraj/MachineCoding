@@ -1,0 +1,21 @@
+<html>
+
+<body>
+    <p>
+    <h1>I am in H1</h1>
+    </p>
+    <script>
+        let a = document.querySelector("h1");
+        let p = document.querySelector("p");
+        console.log(a);
+        a.remove();
+        a = null; // as soon as you mark a variable as null in javascript, it get garbage collected.
+        console.log(a);
+        // remove method removes h1 element from dom tree only, it is still occupying the memory in heap.
+        // After exeucting the a.remove() method h1 element will be removed and we could see that on the broswer.
+        // But 'a' memory will still remains the same.
+        // a is not needed but the memory of it is not released.
+    </script>
+</body>
+
+</html>

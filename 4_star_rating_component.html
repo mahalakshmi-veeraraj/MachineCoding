@@ -1,0 +1,88 @@
+<html>
+<style>
+    .main-container {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .star-container {
+        display: flex;
+        gap: 20px;
+        flex-direction: row;
+        font-size: 50px;
+    }
+
+    .yellow {
+        color: yellow;
+    }
+</style>
+
+<body>
+    <div class="main-container" id="main-container">
+        <h1>Star Rating Component</h1>
+        <div class="star-container">
+            <div class="star" idx="1">&#9733;</div>
+            <div class="star" idx="2">&#9733;</div>
+            <div class="star" idx="3">&#9733;</div>
+            <div class="star" idx="4">&#9733;</div>
+            <div class="star" idx="5">&#9733;</div>
+        </div>
+        <h2>Rating Count: <span id="count"></span></h2>
+    </div>
+    <script>
+        let starRating = 0;
+        const starContainerElement = document.querySelector(".star-container");
+        const starContainerElementChild = starContainerElement.children;
+        starContainerElement.addEventListener("click", handleClickRating); // Event Bubbling.
+        starContainerElement.addEventListener("mouseover", handleMouseOver);
+        starContainerElement.addEventListener("mouseout", handleMouseOut);
+        function handleClickRating(event) {
+            let clickedStarElement = event.target;
+            starRating = clickedStarElement.getAttribute("idx");
+            document.getElementById("count").innerText = starRating;
+            fillColor1(starRating);
+        }
+        function handleMouseOver(event) {
+            let startRating = event.target.getAttribute("idx");
+            fillColor1(startRating);
+        }
+        function handleMouseOut(event) {
+            fillColor1(starRating);
+        }
+        // Way 1.
+        function fillColor(starRating) {
+            // Achieved the result in two traversal.
+            // Remove yellow class from all the stars.
+            for (let i = 0; i < starContainerElementChild.length; i++) {
+                starContainerElementChild[i].classList.remove("yellow");
+            }
+            // Add yellow class to the required star elements.
+            for (let i = 0; i < starRating; i++) {
+                starContainerElementChild[i].classList.add("yellow");
+            }
+        }
+        // Way 2.
+        function fillColor1(starRating) {
+            // Achieved the result in single traversal.
+            for (let i = 0; i < starRating; i++) {
+                if (!starContainerElementChild[i].classList.contains("yellow")) {
+                    starContainerElementChild[i].classList.add("yellow");
+                }
+            }
+            for (let i = starRating; i < starContainerElementChild.length; i++) {
+                starContainerElementChild[i].classList.remove("yellow");
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- Event Bubbling:
+When we click the star component, the event is automatically propagated to the parent component. 
+There is no click event for start components. But there is a click event for all the start components parent.
+Whenever we click any star the event is automatically bubbled to parent component and we can handle the event in the parent component if require.
+event.target - will return the actual element that we clicked. 
+event.currentTarget - will return the element in which the event listener is executing. -->

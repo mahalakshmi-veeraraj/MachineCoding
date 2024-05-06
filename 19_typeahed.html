@@ -1,0 +1,94 @@
+<!-- Problem Statement:
+1. On typing in search box it should suggest some terms.
+2. User should be able to click those options.
+3. Should be optimized or performant enough.
+4. It should avoid uneccessary DB calls.
+5. Previously fetched data should persist.
+
+Question:
+1. Data Source? We can use API to get the data or we can create some data locally and then use settimeout
+to emulate artificial delay.
+2. Minimum character after which suggestion should start?
+
+Planning:
+1. HTML -> UI -> Inputbox.
+2. Get characters typed in inputbox.
+3. Search for suggestions using characters via API.
+4. Show the suggestions. -->
+<html>
+<style>
+    .auto-complete {
+        border: 2px solid red;
+        width: 30rem;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .search-input {
+        width: 90%;
+        height: 3rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+</style>
+
+<body>
+    <div class="auto-complete">
+        <h2>Auto Complete</h2>
+        <input type="text" id="search-input" class="search-input">
+        <ul class="suggestion-box"></ul>
+    </div>
+    <script>
+        const ulElement = document.querySelector("ul");
+        const inputBox = document.querySelector("#search-input");
+        inputBox.addEventListener("input", handleInput);
+        async function handleInput(event) {
+            let inputText = event.target.value;
+            let filteredData = await getCountries(inputText);
+            // Populate the data.
+            populateSuggestion(filteredData);
+        }
+        // fetch method from browser API helps us to make HTTP request.
+        // fetch(url) is a promise based function and it always returns a promise.
+        function getCountries1(input) {
+            const url = `https://restcountries.com/v3.1/name/${input}`;
+            const promise = fetch(url);
+            promise.then((response) => {
+                return response.json();
+            }).then((data) => {
+                return data;
+            }).catch((error) => {
+                throw error;
+            })
+        }
+        // Asynchronous function always returns a Promise.
+        async function getCountries(input) {
+            try {
+                const url = `https://restcountries.com/v3.1/name/${input}`;
+                const promiseResponse = await fetch(url);
+
+                const reponseData = await promiseResponse.json();
+                console.log(reponseData);
+                return reponseData;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        function populateSuggestion(filteredData) {
+            if (filteredData.length == 0) return;
+            ulElement.innerHTML = ""; // To remove all the elements into UL element.
+            // Fragments is used for optimization.
+            // With the help fragment, DOM tree will be re render one time.
+            const fragmnet = document.createDocumentFragment();
+            filteredData.forEach((object) => {
+                let countryName = object.name.common;
+                const liElement = document.createElement("li");
+                liElement.innerText = countryName;
+                fragmnet.appendChild(liElement);
+            });
+            ulElement.appendChild(fragmenet);
+        }
+    </script>
+</body>
+
+</html>
