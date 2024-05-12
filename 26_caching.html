@@ -1,0 +1,65 @@
+<html>
+
+<body>
+    <script>
+        const url = "https://restcountries.com/v3.1/name/ind";
+        const url2 = "https://restcountries.com/v3.1/name/a";
+        const url3 = "https://restcountries.com/v3.1/name/j";
+        const url4 = "https://restcountries.com/v3.1/name/ik";
+        // Without Caching.
+        // async function makeAPICall() { 
+        //     let apiPromiseResponse = fetch(url);
+        //     apiPromiseResponse.then(async (responseData)=>{
+        //         let data = await responseData.json();
+        //         console.log(data);
+        //     })
+        //     .catch((errorResponse)=>{
+        //         console.log(errorResponse);
+        //     })
+        // }
+        // makeAPICall();
+        // makeAPICall();
+        // makeAPICall();
+        // With Caching.
+        function makeAPICall() {
+            const cache = {};
+            return async function (url, expiryInHours) {
+                // check in cache.
+                const currentTime = new Date().getTime();
+                if (cache[url] && (currentTime - cache[url].timeStamp) < (expiryInHours * 60 * 60 * 1000)) {
+                    console.log("Data returned from cache");
+                    console.log("Data: " + cache[url]);
+                    console.log(cache[url].timeStamp);
+                    return cache[url].data;
+                }
+                // make api call and store the result in cache.
+                let apiPromiseResponse = fetch(url);
+                await apiPromiseResponse.then(async (responseData) => {
+                    let data = await responseData.json();
+                    cache[url] = { data: data, timeStamp: new Date().getTime() };
+                    console.log("Data returned from the API request response");
+                    console.log("Data: " + cache[url]);
+                    console.log(cache);
+                    return cache[url].data;
+                })
+                    .catch((errorResponse) => {
+                        console.log(errorResponse);
+                    });
+            }
+        }
+        let closureMakeAPICall = makeAPICall();
+        async function executeAPICall() {
+            await closureMakeAPICall(url, 48);
+            await closureMakeAPICall(url, 48);
+            await closureMakeAPICall(url, 48);
+            await closureMakeAPICall(url2, 48);
+            await closureMakeAPICall(url3, 48);
+            await closureMakeAPICall(url4, 48);
+        }
+        executeAPICall();
+    </script>
+</body>
+
+</html>
+<!-- Redis - Popular tool for caching functionality. -->
+<!-- Using redis tool, we can utilize the expiry method in it to remove the data when the expiry time is elapsed. -->

@@ -1,0 +1,23 @@
+<html>
+
+<body>
+    <script>
+        const abortController = new AbortController();
+        async function callAPI() {
+            const url = `https://restcountries.com/v3.1/name/ind`;
+            let responsePromise = await fetch(url, { signal: abortController.signal });
+            console.log("API Call request starts processing");
+            abortAPICall();
+            let responseData = await responsePromise.json();
+            console.log("API Call request processed successfully");
+            console.log(responseData);
+        }
+        callAPI();
+        function abortAPICall() {
+            abortController.abort();
+            console.log("API Call is aborted");
+        }
+    </script>
+</body>
+
+</html>

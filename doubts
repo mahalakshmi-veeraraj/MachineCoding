@@ -1,0 +1,14 @@
+// 1. 22_debouncing-shopping-cart.html:
+//     When debouncing function executes the callback updatePrice function 'event' object is undefined in it.
+// 2. 20_typeahead_debounce.html:  
+//     When debounce function executes the callback handleInput function, the return result of the debounce
+//     function is not coming properly.
+//     Delay - 3000.
+//     If I type in b then b results are populated. 
+//     After 3 seconds If I type in ba then ba results are populated. 
+//     After 3 seconds If I type in bah then bah results are populated.  
+//     Could you find that the previous search results remains showing in the search suggestion input. 
+// 3. In real time, how much delay will be assigned when we click the save or submit button in a form. 
+//    Delay value is a constant and we will need to assign the value of delay based on the assumption 
+//    that the save or submit function takes right.
+// 4. Why 'this' reference works differently when executing in terminal, browser?

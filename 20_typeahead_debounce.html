@@ -42,7 +42,7 @@ Planning:
 <body>
     <div class="auto-complete">
         <h2>Auto Complete</h2>
-        <input type="text" id="search-input" class="search-input">
+        <input type="text" id="search-input" class="search-input" autocomplete="off">
         <ul class="suggestion-box"></ul>
     </div>
     <script>
@@ -52,14 +52,20 @@ Planning:
         let debouncedFn;
         async function handleInput(event) {
             let inputText = event.target.value;
+            if (inputText.length == 0) return;
             if (!debouncedFn)
                 debouncedFn = debounce(getCountries, 3000);
             // debouncedFn is a Closure - contains a function along with the lexical environment references.
             let filteredData = await debouncedFn(inputText);
-            populateSuggestion(filteredData);
+            // console.log("filtered data is "+filteredData);
+            // populateSuggestion(filteredData);
         }
         // Debouncing is a way to limit the number of function execution.
         // Debouncing - use debouncing if you want to process the latest request.
+        // b timerId = 1
+        // ba timerId = 2 (timerId = 1 will be cleared here)
+        // bah timerId = 3 (timerId = 2 will be cleared here)
+        // Finally timerId = 3 will complete execution.
         function debounce(fn, delay) {
             let timerID = null;
             return function (fnArgs) {
@@ -80,22 +86,23 @@ Planning:
                 const reponseData = await promiseResponse.json();
                 console.log("Input typed is " + input);
                 console.log(reponseData);
+                populateSuggestion(reponseData);
                 return reponseData;
             } catch (error) {
                 console.log(error.message);
             }
         }
         function populateSuggestion(filteredData) {
-            if (filteredData.length == 0) return;
+            if (!filteredData || filteredData.length == 0) return;
             ulElement.innerHTML = "";
-            const fragmnet = document.createDocumentFragment();
+            const fragment = document.createDocumentFragment();
             filteredData.forEach((object) => {
                 let countryName = object.name.common;
                 const liElement = document.createElement("li");
                 liElement.innerText = countryName;
-                fragmnet.appendChild(liElement);
+                fragment.appendChild(liElement);
             });
-            ulElement.appendChild(fragmenet);
+            ulElement.appendChild(fragment);
         }
     </script>
 </body>

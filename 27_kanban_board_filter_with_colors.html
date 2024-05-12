@@ -1,0 +1,304 @@
+<!-- 
+
+Problem Description:
+Implement the filter feature for the tickets based on the priority colors. (lightpink, lightgreen, lightblue, black).
+Task 1:
+    Whenever a particular color is clicked from the toolbox =>
+        1.1 Remove all the existing tickets from the document.
+        1.2 Only the tickets with the assigned priority colors should be added to the document.
+Task 2:
+    Whenever any of the color is double clicked =>
+        1.1 Remove all the existing tickets from the document.
+        1.2 All the tickets (regardsless of color) should be added to the document.
+
+Important information and algorithms:
+1. How to add a ticket to the document?
+    createTicket(ticket-task, ticket-color, ticket-id) function has been provided in the script.js,
+    this function creates and adds a ticket to the document with below structure. -->
+
+<html>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .toolbox-cont {
+        height: 5rem;
+        background-color: #4b4b4b;
+        display: flex;
+        align-items: center;
+    }
+
+    .toolbox-cont>* {
+        margin-left: 4rem;
+    }
+
+    .toolbox-priority-cont {
+        height: 3.5rem;
+        width: 18rem;
+        background-color: #3d3d3d;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+
+    .action-btn-cont {
+        height: 3.5rem;
+        width: 8rem;
+        background-color: #3d3d3d;
+        display: flex
+    }
+
+    .action-btn-cont>* {
+        display: flex;
+        justify-content: center;
+        width: 50%;
+        font-size: 2rem;
+        align-items: center;
+        color: white;
+
+    }
+
+    .color {
+        height: 1.5rem;
+        width: 3rem;
+    }
+
+    .lightpink {
+        background-color: lightpink;
+    }
+
+    .lightgreen {
+        background-color: lightgreen;
+    }
+
+    .lightblue {
+        background-color: lightblue;
+    }
+
+    .black {
+        background-color: black;
+    }
+
+
+    .modal-cont {
+        height: 50vh;
+        width: 45vw;
+        background: lightblue;
+        position: absolute;
+        top: 30%;
+        left: 25%;
+        display: none;
+
+    }
+
+
+    .textArea-cont {
+        height: 100%;
+        width: 75%;
+        background-color: #dfe4ea;
+        outline: none;
+        border: none;
+        resize: none;
+        font-size: 2rem;
+        padding: 2rem;
+    }
+
+
+    .priority-colors-container {
+        height: 100%;
+        width: 25%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        background-color: #4b4b4b
+    }
+
+    .priority-color {
+        height: 3rem;
+        width: 5rem;
+    }
+
+
+    .main-cont {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        padding: 2rem;
+        flex-wrap: wrap;
+    }
+
+
+    .ticket-cont {
+        height: 12rem;
+        width: 15rem;
+        background-color: coral;
+    }
+
+
+    .ticket-color {
+        height: 1rem;
+    }
+
+
+    .ticket-id {
+        background-color: yellow;
+        height: 2rem;
+    }
+
+    .ticket-lock {
+        display: flex;
+        font-size: 1.5rem;
+        justify-content: flex-end;
+        margin-top: 90px;
+        margin-right: 5px;
+
+    }
+
+    .add-btn:hover {
+        background-color: #4BB543;
+    }
+
+
+    .remove-btn:hover {
+        background-color: #4BB543;
+    }
+
+
+    .toolbox-priority-cont>*:hover {
+        background-color: #485460;
+    }
+
+
+    .active {
+        border: 5px solid coral;
+    }
+
+    .action-btn {
+        display: flex;
+        gap: 20px;
+        width: 100px;
+        height: 40px;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+    }
+</style>
+
+<body>
+    <!-- TOOL BOX ELEMENTS -->
+    <div class="toolbox-cont">
+        <div class="toolbox-priority-cont">
+            <div class="lightpink color"></div>
+            <div class="lightgreen color"></div>
+            <div class="lightblue color"></div>
+            <div class="black color"></div>
+        </div>
+
+        <div class="action-btn">
+            <div class="add-btn">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+            <div class="remove-btn">
+                <i class="fa-solid fa-trash"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MAIN CONTAINER - Tickets holder -->
+    <div class="main-cont">
+        <!-- <div class="ticket-cont">
+            <div class="ticket-color lightblue"></div>
+            <div class="ticket-id">id 1</div>
+            <div class="task-area"> this  is task 1</div>
+            <div class="ticket-lock">
+              <i class="fa-solid fa-lock"></i>
+           </div> -->
+    </div>
+    </div>
+
+    <!-- MODAL - Ticket generator window -->
+    <div class="modal-cont">
+
+        <textarea class="textArea-cont" placeholder="Enter Your Task" spellcheck="false"></textarea>
+
+
+        <div class="priority-colors-container">
+            <div class="lightpink priority-color"></div>
+            <div class="lightgreen priority-color"></div>
+            <div class="lightblue priority-color"></div>
+            <div class="black priority-color active"></div>
+        </div>
+
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/short-unique-id@latest/dist/short-unique-id.min.js"></script>
+    <script>
+        let uid = new ShortUniqueId();
+        const add_btn_element = document.querySelector(".add-btn");
+        const modal_cont_element = document.querySelector(".modal-cont");
+        const priority_colors_container_element = document.querySelector(".priority-colors-container");
+        const textarea_element = document.querySelector(".textArea-cont");
+        const maint_cont_element = document.querySelector(".main-cont");
+        let ticketColor = "black";
+        add_btn_element.addEventListener("click", function (event) {
+            if (event.currentTarget.classList.contains("add-btn")) {
+                modal_cont_element.style.display = "flex";
+            }
+        });
+
+        priority_colors_container_element.addEventListener("click", function (e) {
+            // Remove active class from the previously clicked elements.
+            Array.from(e.currentTarget.children).forEach((element) => {
+                element.classList.remove("active");
+            });
+            // Add active class to the currently clicked element.
+            if (e.target.classList.contains("lightpink") || e.target.classList.contains("lightgreen") || e.target.classList.contains("lightblue") || e.target.classList.contains("black")) {
+                e.target.classList.add("active");
+                ticketColor = e.target.classList[0];
+            }
+        });
+
+        modal_cont_element.addEventListener("keypress", function (event) {
+            if (event.key != "Enter") {
+                return;
+            }
+            let ticketContent = textarea_element.value;
+            console.log(ticketContent);
+            createTicket(ticketContent, ticketColor);
+            modal_cont_element.style.display = "none";
+            textarea_element.value = "";
+            ticketColor = "black";
+
+            // Remove active class from the previously clicked elements.
+            Array.from(priority_colors_container_element.children).forEach((element) => {
+                element.classList.remove("active");
+            });
+            priority_colors_container_element.children[3].classList.add("active");
+        });
+
+        function createTicket(ticketContent, ticketColor) {
+            const ticketCont = document.createElement("div");
+            ticketCont.classList.add("ticket-cont");
+            ticketCont.innerHTML = `<div class="ticket-color ${ticketColor}"></div>
+            <div class="ticket-id">id ${uid.rnd()}</div>
+            <div class="task-area"> ${ticketContent}</div>
+            <div class="ticket-lock">
+              <i class="fa-solid fa-lock"></i>
+           </div>`;
+            maint_cont_element.appendChild(ticketCont);
+        }
+    </script>
+</body>
+
+</html>
