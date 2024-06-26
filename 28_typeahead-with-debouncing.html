@@ -1,0 +1,53 @@
+<html>
+  <script>
+    const debouncedFn = debouncing(search, 3000); // Received a closure = Function along with the lexical references.
+    function handleSearch() {
+      debouncedFn();
+    }
+    function debouncing(func, delay) {
+      let timeoutId;
+      return () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          func();
+        }, delay);
+      };
+    }
+    function search() {
+      let searchText = document.getElementById("searchInput").value;
+      if (searchText === "") return;
+      fetch("https://restcountries.com/v3.1/name/" + searchText)
+        .then((reponse) => {
+          return reponse.json();
+        })
+        .then((response) => {
+          const countries = response;
+          console.log(
+            `Response received for the search text ${searchText}:`,
+            response
+          );
+          const fragment = document.createDocumentFragment();
+          countries.map((country) => {
+            const liElement = document.createElement("li");
+            liElement.innerText = country.name.common;
+            fragment.appendChild(liElement);
+          });
+          const ulElement = document.getElementById("ul");
+          ulElement.innerHTML = "";
+          ulElement.appendChild(fragment);
+        })
+        .catch((error) => {
+          console.log("Error fetching data ", error);
+        });
+    }
+  </script>
+  <body>
+    <input
+      type="text"
+      placeholder="Enter your search..."
+      id="searchInput"
+      oninput="handleSearch()"
+    />
+    <ul id="ul"></ul>
+  </body>
+</html>
